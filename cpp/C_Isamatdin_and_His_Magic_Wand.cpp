@@ -101,10 +101,26 @@ void solve() {
   cout << x << '\n';
 }
 
+void solve2() {
+  int n, odd = 0, even = 0; cin >> n;
+  vii a(n);
+  FOR(i, n) {
+    cin >> a[i];
+    if (a[i] % 2) odd++;
+    else even++;
+  }
+  if (odd >= 1 && even >= 1) {
+    sort(all(a));
+    printv(a);
+  } else {
+    printv(a);
+  }
+}
+
 int main() {
   FASTIO;
-  int t = 1;
+  int t;
   cin >> t;
-  while (t--) solve();
+  while (t--) solve2();
   return 0;
 }

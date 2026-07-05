@@ -98,12 +98,26 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+
+void solve() {
+  ll n, health = 0, count; cin >> n;
+  priority_queue<ll> pq;
+  count = n;
+  FOR(i, n) {
+    ll x; cin >> x;
+    health += x;
+    if (x < 0) pq.push(-x);
+    if (health < 0 && !pq.empty()) {
+      count--;
+      health += pq.top();
+      pq.pop();
+    }
+  }
+  cout << count << "\n";
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

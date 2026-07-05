@@ -96,14 +96,74 @@ void printv(const vector<T>& v) {
   for (int i = 0; i < (int)v.size(); i++)
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
+// ─── STRUCT
+struct Node {
+  int paired, open, close;
+};
+
+const int MAXN = 1000005;
+Node tree[4 * MAXN];
+string s;
+// x -> 2 * x, 2 * x + 1
+
+Node merge(Node left, Node right) {
+  Node parent;
+  int P = min(left.open, right.close);
+
+  parent.paired = left.paired + right.paired + P;
+  parent.open = left.open + right.open - P;
+  parent.close = left.close + right.close - P;
+
+  return parent;
+}
+
+void build(int node, int l, int r) {
+  if (l == r) {
+    tree[node].paired = 0;
+    tree[node].open = (s[l] == '(');
+    tree[node].close = (s[l] == ')');
+    return;
+  }
+
+  int mid = (l + r) / 2;
+  build(2 * node, l, mid);
+  build(2 * node + 1, mid + 1, r);
+
+  tree[node] = merge(tree[2 * node], tree[2 * node + 1]);
+}
+
+Node query(int node, int l, int r, int ql, int qr) {
+  if (qr < l || r < ql) return {0, 0, 0};
+  if (ql <= l && r <= qr) return tree[node];
+
+  int mid = (l + r) / 2;
+  Node left = query(2 * node, l, mid, ql, qr);
+  Node right = query(2 * node + 1, mid + 1, r, ql, qr);
+
+  return merge(left, right);
+}
 
 // ─── SOLVE
-void solve() {}
+
+void solve() {
+  cin >> s;
+  int n = s.size();
+
+  build(1, 0, n - 1);
+
+  int m;
+  cin >> m;
+  while (m--) {
+    int l, r;
+    cin >> l >> r;
+    l--; r--;
+    Node ans = query(1, 0, n - 1, l, r);
+    cout << 2 * ans.paired << '\n';
+  }
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

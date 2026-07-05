@@ -98,12 +98,44 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+
+void solve() {
+  int n; cin >> n;
+  string a, b; cin >> a >> b;
+  int left = 0, right = n - 1;
+  bool inverted = false;
+  vii ans;
+
+  if (a == b) {
+    cout << 0 << "\n";
+    return;
+  }
+
+  for (int i = n - 1; i >= 0; i--) {
+    char target = b[i];
+    char current = inverted ? (a[left] ^ 1) : a[right];
+
+    if (current == target) {
+      if (inverted) left++;
+      else right--;
+    } else {
+      if ((inverted ? (a[right] ^ 1) : a[left]) == target)
+        ans.pb(1);
+      
+      ans.pb(i + 1);
+      if (inverted) right--;
+      else left++;
+      inverted = !inverted;
+    }
+  }
+  cout << ans.size() << " ";
+  printv(ans);
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  int t; cin >> t;
+  while (t--)
+    solve();
   return 0;
 }

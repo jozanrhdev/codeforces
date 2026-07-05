@@ -97,13 +97,34 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
+const ll MAXN = 1e12 + 100;
 // ─── SOLVE
-void solve() {}
+void solve() {
+  string s; cin >> s;
+  int count_b = 0, count_s = 0, count_c = 0;
+  int nb, ns, nc; cin >> nb >> ns >> nc;
+  int pb, ps, pc; cin >> pb >> ps >> pc;
+  ll r, X, low = 0, high = MAXN; cin >> r;
+
+  FOR(i, s.size()) {
+    if (s[i] == 'B') count_b++;
+    else if (s[i] == 'S') count_s++;
+    else if (s[i] == 'C') count_c++;
+  }
+
+  while(low < high) {
+    X = (low + high + 1) / 2;
+    cout << low << " " << high << " " << X << "\n";
+    ll cost = max(0LL, count_b * X - nb) * pb + max(0LL, count_s * X - ns) * ps + max(0LL, count_c * X - nc) * pc;
+    if (cost <= r) low = X;
+    else high = X - 1;
+  }
+
+  cout << low << "\n";
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

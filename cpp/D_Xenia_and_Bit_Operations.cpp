@@ -97,13 +97,70 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
+const int MAXN = 131072;
+int tree[4 * MAXN];
+int a[MAXN + 5];
+
+void build(int node, int l, int r, int level) {
+  if (l == r) {
+    tree[node] = a[l];
+    return;
+  }
+
+  int mid = (l + r) / 2;
+  build(2 * node, l, mid, level - 1);
+  build(2 * node + 1, mid + 1, r, level - 1);
+  
+  tree[node] = (level % 2 == 1 
+    ? tree[2 * node] | tree[2 * node + 1] 
+    : tree[2 * node] ^ tree[2 * node + 1]);
+}
+
+int update(int node, int l, int r, int idx, int val) {
+  if (l == r) {
+    tree[node] = val;
+    return 1;
+  }
+
+  int mid = (l + r) / 2;
+  int level;
+
+  if (idx <= mid) {
+    level = update(2 * node, l, mid, idx, val);
+  } else {
+    level = update(2 * node + 1, mid + 1, r, idx, val);
+  }
+
+  tree[node] = (level % 2 == 1 
+    ? tree[2 * node] | tree[2 * node + 1] 
+    : tree[2 * node] ^ tree[2 * node + 1]);
+
+  return level + 1;
+}
+
 // ─── SOLVE
-void solve() {}
+
+void solve() {
+  int n, m;
+  cin >> n >> m;
+  int size = 1 << n;
+
+  FOR(i, size) cin >> a[i];
+
+  build(1, 0, size - 1, n);
+
+  while(m--) {
+    int p, b; cin >> p >> b;
+    p--;
+
+    update(1, 0, size - 1, p, b);
+
+    cout << tree[1] << '\n';
+  }
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

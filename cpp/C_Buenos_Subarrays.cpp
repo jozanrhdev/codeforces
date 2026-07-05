@@ -98,7 +98,31 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+void solve() {
+  int n;
+  cin >> n;
+  string s;
+  cin >> s;
+  map<ll, ll> prefix_counts;
+
+  prefix_counts[0] = 1;
+
+  ll current_sum = 0;
+  ll good_arrays = 0;
+  FOR(i, n) {
+    int val = (s[i] - '0') - 1;
+
+    current_sum += val;
+
+    if (prefix_counts.count(current_sum)) { // [1, 1, 0, 1, 1] = len(subarray) = sum(subarray)
+      good_arrays += prefix_counts[current_sum];
+    }
+
+    prefix_counts[current_sum]++;
+  }
+
+  cout << good_arrays << '\n';
+}
 
 int main() {
   FASTIO;

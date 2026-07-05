@@ -97,13 +97,50 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
+void dfs(int u, vector<vector<int>>& adj, vector<bool>& visited,
+         bool& is_cycle) {
+  visited[u] = true;
+
+  if (adj[u].size() != 2) {
+    is_cycle = false;
+  }
+
+  for (int v : adj[u]) {
+    if (!visited[v]) {
+      dfs(v, adj, visited, is_cycle);
+    }
+  }
+}
+
+const int MAXN = 2e5 + 5;
+vector<vector<int>> adj(MAXN);
+vector<bool> visited(MAXN, false);
+
 // ─── SOLVE
-void solve() {}
+void solve() {
+  int n, m;
+  cin >> n >> m;
+  FOR(i, m) {
+    int u, v;
+    cin >> u >> v;
+    adj[u].pb(v);
+    adj[v].pb(u);
+  }
+
+  int ans = 0;
+  for (int i = 1; i <= n; i++) {
+    if (!visited[i]) {
+      bool is_cycle = true;
+      dfs(i, adj, visited, is_cycle);
+      if (is_cycle) ans++;
+    }
+  }
+
+  cout << ans << "\n";
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

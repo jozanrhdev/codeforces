@@ -97,13 +97,33 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
+ll get_ways(int target, int limit) {
+  vll dp(target + 1, 0);
+  dp[0] = 1;
+
+  FORI(i, 1, target + 1) {
+    int mx = min(i, limit);
+    for (int j = 1; j <= mx; j++)
+      dp[i] = (dp[i] + dp[i - j]) % MOD;
+  }
+  return dp[target];
+}
+
 // ─── SOLVE
-void solve() {}
+
+void solve() {
+  int n, k, d;
+  cin >> n >> k >> d;
+
+  ll total_all = get_ways(n, k);
+
+  ll total_invalid = get_ways(n, d - 1);
+
+  cout << (total_all - total_invalid + MOD) % MOD << '\n';
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

@@ -97,13 +97,46 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
+const int N = 1e5 + 1;
 // ─── SOLVE
-void solve() {}
+void solve() {
+  ll n, skip = 0, take = 0, ans = 0;
+  cin >> n;
+  vll dp(N, 0);
+
+  FOR(i, n) {
+    ll x;  cin >> x;
+    dp[x] += x;
+  }
+
+  FORI(i, 1, N) {
+//    dp[1] = 10
+// currTake = 0 + 10 = 10
+// skip = max(0, 0) = 0
+// take = 10
+// dp[2] = 1000
+// currTake = 0 + 1000 = 1000
+// skip = max(0, 10) = 10
+// take = 1000
+// dp[3] = 10
+// currTake = 10 + 10 = 20
+// skip = max(10, 1000) = 1000
+// take = 20
+// dp[4] = 0
+// currTake = 1000 + 0 = 1000
+// skip = max(1000, 20) = 1000
+// take = 1000
+
+    ll currTake = skip + dp[i];
+    skip = max(skip, take);
+    take = currTake;
+  }
+
+  cout << max(skip, take) << "\n";
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

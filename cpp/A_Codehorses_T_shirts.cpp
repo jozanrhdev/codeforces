@@ -98,12 +98,26 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+
+void solve() {
+  int n, ans = 0; cin >> n;
+  map<string, int> before;
+  map<string, int> after;
+  FOR(i, n) {
+    string s; cin >> s;
+    before[s]++;
+  }
+
+  FOR(i, n) {
+    string s; cin >> s;
+    (before[s] == 0 ? ans++ : before[s]--);
+  }
+
+  cout << ans << '\n';
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

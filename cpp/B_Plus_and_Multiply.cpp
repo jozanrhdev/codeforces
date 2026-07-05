@@ -68,8 +68,8 @@ const ld PI = acos((ld)-1);
 #define FASTIO                  \
   ios_base::sync_with_stdio(0); \
   cin.tie(0)
-#define yes cout << "YES\n"
-#define no cout << "NO\n"
+#define yes cout << "Yes\n"
+#define no cout << "No\n"
 
 // ─── UTILS
 ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
@@ -98,11 +98,32 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+
+void solve() {
+  ll n, a, b, calc = 1;
+  cin >> n >> a >> b;
+  if (a == 1) {
+    if ((n - 1) % b == 0) {
+      yes;
+    } else {
+      no;
+    }
+    return;
+  }
+
+  while (calc <= n) {
+    if ((n - calc) % b == 0) {
+      yes;
+      return;
+    }
+    calc *= a;
+  }
+  no;
+}
 
 int main() {
   FASTIO;
-  int t = 1;
+  int t;
   cin >> t;
   while (t--) solve();
   return 0;

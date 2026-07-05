@@ -97,13 +97,30 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
+const int MAXN = 200005;
+int a[MAXN], dp[MAXN];
+
 // ─── SOLVE
-void solve() {}
+void solve() {
+  int n; cin >> n;
+  FOR(i, n) cin >> a[i];
+  dp[n] = 0;
+
+  for (int i = n - 1; i >= 0; i--) {
+    if (i + a[i] + 1 <= n) {
+      dp[i] = min(dp[i + 1] + 1, dp[i + a[i] + 1]);
+    } else {
+      dp[i] = dp[i + 1] + 1;
+    }
+  }
+
+  cout << dp[0] << "\n";
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  int t; cin >> t;
+  while(t--)
+    solve();
   return 0;
 }

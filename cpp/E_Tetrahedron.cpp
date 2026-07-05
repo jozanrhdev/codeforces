@@ -98,12 +98,20 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+void solve() {
+  int n; cin >> n;
+  ll D = 1, No_D = 0;
+
+  FOR(i, n) {
+    ll new_forms_D = No_D % MOD;
+    No_D = (3 * D + 2 * No_D) % MOD;
+    D = new_forms_D;
+  }
+  cout << D << "\n";
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

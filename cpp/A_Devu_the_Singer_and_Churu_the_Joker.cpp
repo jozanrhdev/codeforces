@@ -1,10 +1,8 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
 // ─── DEBUG (compilar con -DKILLBUG para activar)
 template <typename A, typename B>
-
 string to_string(pair<A, B> p);
 template <typename A>
 string to_string(A v) {
@@ -98,12 +96,24 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+void solve() {
+  int n, d, sm = 0;
+  cin >> n >> d;
+  vii a(n);
+  FOR(i, n) {
+    cin >> a[i];
+    sm += a[i];
+  }
+
+  if ((n - 1) * 10 + sm <= d) {
+    cout << (d - sm) / 5 << '\n';
+  } else {
+    cout << -1 << '\n';
+  }
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

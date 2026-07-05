@@ -98,12 +98,32 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+void solve() {
+  ll n, sm = 0; cin >> n;
+  vll a(n);
+  FOR(i, n) {
+    cin >> a[i];
+    sm += a[i];
+  }
+
+  ll t = sm / 3;
+  if (sm % 3 != 0) {
+    cout << 0 << '\n';
+    return;
+  }
+
+  ll count_t = 0, count_2t = 0, current_sum = 0;
+  for (int i = 0; i < n - 1; i++) {
+    current_sum += a[i];
+    if (current_sum == 2 * t) count_2t += count_t;
+    if (current_sum == t) count_t++;
+  }
+
+  cout << count_2t << '\n';
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

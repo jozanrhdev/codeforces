@@ -98,12 +98,42 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+
+void solve() {
+  int n, goals = 0, acc = 0; cin >> n;
+  vii a(n);
+  FOR(i, n) {
+    cin >> a[i];
+    acc = acc ^ a[i];
+  }
+
+  if (acc == 0) {
+    yes;
+    return;
+  }
+
+  int V = acc;
+  acc = 0;
+  FOR(i, n) {
+    acc = acc ^ a[i];
+    if (acc == V) {
+      goals++;
+      acc = 0;
+    }
+
+    if (goals == 2) {
+      yes;
+      return;
+    }
+  }
+  no;
+}
 
 int main() {
   FASTIO;
-  int t = 1;
+  int t;
   cin >> t;
-  while (t--) solve();
+  while (t--) 
+    solve();
   return 0;
 }

@@ -72,7 +72,7 @@ const ld PI = acos((ld)-1);
 #define no cout << "NO\n"
 
 // ─── UTILS
-ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
+// ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
 ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 ll pw(ll b, ll e, ll m = MOD) {
   ll r = 1;
@@ -98,12 +98,39 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+void solve() {
+  int n; cin >> n;
+  vector<pair<string, int>> pp;
+  map<string, int> mp;
+
+  int mx = -INFi, mn = INFi, tmp = 0;
+  FOR(i, n) {
+    string s; int x;
+    cin >> s >> x;
+    mp[s] += x;
+    pp.pb(make_pair(s, x));
+  }
+
+
+  for(auto &[k, v]: mp) {
+    mx = max(mx, v);
+  }
+
+  map<string, int> again;
+  FOR(i, n) {
+    if (mp[pp[i].first] == mx) {
+      again[pp[i].first] += pp[i].second;
+    }
+
+    if (again[pp[i].first] >= mx) {
+      cout << pp[i].first << '\n';
+      return;
+    }
+  }
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

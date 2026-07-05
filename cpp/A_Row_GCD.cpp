@@ -72,7 +72,7 @@ const ld PI = acos((ld)-1);
 #define no cout << "NO\n"
 
 // ─── UTILS
-ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
+// ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
 ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 ll pw(ll b, ll e, ll m = MOD) {
   ll r = 1;
@@ -98,12 +98,27 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+void solve() {
+  ll n, m, k = 0; cin >> n >> m;
+  vll a(n), b(m);
+  FOR(i, n) cin >> a[i];
+  FOR(i, m) cin >> b[i];
+
+  // sortA(a);
+  
+  for (int i = 1; i < n; ++i) {
+    k = gcd(a[i] - a[0], k);
+  }
+
+  for (int i = 0; i < m; ++i) {
+    b[i] = gcd(a[0] + b[i], k);
+  }
+
+  printv(b);
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

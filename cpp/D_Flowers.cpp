@@ -98,12 +98,30 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+
+const int MAXN = 1e5;
+vll dp(MAXN + 1, 0), prefix(MAXN + 1, 0);
+
+void solve() {
+  int a, b;
+  cin >> a >> b;
+  cout << (prefix[b] - prefix[a - 1] + MOD) % MOD << "\n";
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
+  ll t, k;                                                // prefix: 1, 3, 6, 11, 19, 32, 53,  
+  cin >> t >> k; // fibonacci modificado, dp[i] = dp[i-1] + dp[i-2]; 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
+  dp[0] = 1;
+  prefix[0] = 0;
+  FORI(i, 1, MAXN + 1) {
+    dp[i] = dp[i - 1];
+    if (i >= k) dp[i] = (dp[i] + dp[i - k]) % MOD;
+
+    prefix[i] = (prefix[i - 1] + dp[i]) % MOD;
+  }
+
   while (t--) solve();
+
   return 0;
 }

@@ -98,12 +98,26 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+void solve() {
+  ll n, sm = 0, mx = 0;
+  cin >> n;
+  FOR(i, n) {
+    ll x;
+    cin >> x;
+    sm += x;
+    mx = max(mx, x);
+  }
+
+  if (sm % 2 != 0 || mx > (sm - mx)) {
+    no;
+    return;
+  }
+
+  yes;
+}
 
 int main() {
   FASTIO;
-  int t = 1;
-  cin >> t;
-  while (t--) solve();
+  solve();
   return 0;
 }

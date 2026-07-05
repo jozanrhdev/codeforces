@@ -4,7 +4,6 @@ using namespace std;
 
 // ─── DEBUG (compilar con -DKILLBUG para activar)
 template <typename A, typename B>
-
 string to_string(pair<A, B> p);
 template <typename A>
 string to_string(A v) {
@@ -98,7 +97,36 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+void solve() {
+  int n;
+  cin >> n;
+  vii a(n);
+  FOR(i, n) cin >> a[i];
+
+  int pos = -1;
+  FOR (i, n) {
+    if (a[i] != n - i) {
+      pos = i;
+      break;
+    }
+  }
+
+  if (pos != -1) {
+    int target = n - pos;
+    int r = -1;
+
+    FORI(i, pos + 1, n) {
+      if (a[i] == target) {
+        r = i;
+        break;
+      }
+    }
+
+    reverse(a.begin() + pos, a.begin() + r + 1);
+  }
+
+  printv(a);
+}
 
 int main() {
   FASTIO;

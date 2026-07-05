@@ -1,10 +1,8 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
 // ─── DEBUG (compilar con -DKILLBUG para activar)
 template <typename A, typename B>
-
 string to_string(pair<A, B> p);
 template <typename A>
 string to_string(A v) {
@@ -98,7 +96,10 @@ void printv(const vector<T>& v) {
 }
 
 // ─── SOLVE
-void solve() {}
+void solve() {
+  int n; cin >> n;
+  cout << (n % 3 == 0 ? 0 : 3 - (n % 3)) << "\n";
+}
 
 int main() {
   FASTIO;
