@@ -97,35 +97,30 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
+int sliding_window(int n, int k, string s, char enemy) {
+  int l = 0, r = 0, bad = 0, ans = 0;
+  for (r = 0; r < n; r++) {
+    if (s[r] == enemy) bad++;
+    while (bad > k) {
+      if (s[l] == enemy) bad--;
+      l++;
+    }
+    ans = max(ans, r - l + 1);
+  }
+  return ans;
+}
 
 // ─── SOLVE
 void solve() {
-  int n, ans = 0; cin >> n;
-  vii cont(n + 1, 0), a(n);
+  int n, k; cin >> n >> k;
+  string s; cin >> s;
 
-  FOR(i, n) {
-    cin >> a[i];
-    cont[a[i]]++;
-  }
-
-  FOR(i, n) {
-    int sm = a[i];
-    FORI(j, i + 1, n) {
-      sm += a[j];
-      if (sm > n) break;
-      if (cont[sm] > 0) {
-        ans += cont[sm];
-        cont[sm] = 0;
-      }
-    }
-  }
-  cout << ans << "\n";
+  int ans = max(sliding_window(n, k, s, 'a'), sliding_window(n, k, s, 'b'));
+  cout << ans << '\n';
 }
 
 int main() {
   FASTIO;
-  int t; cin >> t;
-  while(t--)
-    solve();
+  solve();
   return 0;
 }

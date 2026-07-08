@@ -97,35 +97,16 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
-
 // ─── SOLVE
 void solve() {
-  int n, ans = 0; cin >> n;
-  vii cont(n + 1, 0), a(n);
-
-  FOR(i, n) {
-    cin >> a[i];
-    cont[a[i]]++;
-  }
-
-  FOR(i, n) {
-    int sm = a[i];
-    FORI(j, i + 1, n) {
-      sm += a[j];
-      if (sm > n) break;
-      if (cont[sm] > 0) {
-        ans += cont[sm];
-        cont[sm] = 0;
-      }
-    }
-  }
-  cout << ans << "\n";
+  long long n, k; cin >> n >> k;
+  for (int i = 0; i < k; i++)
+    (n % 10 != 0 ? n-- : n /= 10);
+  cout << n << '\n';
 }
 
 int main() {
   FASTIO;
-  int t; cin >> t;
-  while(t--)
-    solve();
+  solve();
   return 0;
 }

@@ -100,32 +100,27 @@ void printv(const vector<T>& v) {
 
 // ─── SOLVE
 void solve() {
-  int n, ans = 0; cin >> n;
-  vii cont(n + 1, 0), a(n);
+  int n, m; cin >> n >> m;
+  vll a(n), b(m);
+  EACH(x, a) cin >> x;
+  EACH(x, b) cin >> x;
 
-  FOR(i, n) {
-    cin >> a[i];
-    cont[a[i]]++;
-  }
-
-  FOR(i, n) {
-    int sm = a[i];
-    FORI(j, i + 1, n) {
-      sm += a[j];
-      if (sm > n) break;
-      if (cont[sm] > 0) {
-        ans += cont[sm];
-        cont[sm] = 0;
-      }
+  ll ans = -INF;
+  for (int i = 0; i < n; ++i) {
+    ll idx = lower_bound(all(b), a[i]) - b.begin();
+    if (idx == 0) {
+      ans = max(ans, abs(a[i] - b[0]));
+    } else if (idx == b.size()) {
+      ans = max(ans, abs(a[i] - b.back()));
+    } else {
+      ans = max(ans, min(abs(a[i] - b[idx]), abs(a[i] - b[idx - 1])));
     }
   }
-  cout << ans << "\n";
+  cout << ans << '\n';
 }
 
 int main() {
   FASTIO;
-  int t; cin >> t;
-  while(t--)
-    solve();
+  solve();
   return 0;
 }
