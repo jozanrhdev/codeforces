@@ -97,35 +97,43 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
+vii build_z(const string& s) {
+  int n = s.length();
+  vii z(n, 0);
+  z[0] = n;
+  
+  int l = 0, r = 0;
+  for (int i = 1; i < n; i++) {
+    if (i <= r) z[i] = min(r - i + 1, z[i - l]);
+    while (i + z[i] < n && s[z[i]] == s[i + z[i]]) z[i]++;
+    if (i + z[i] - 1 > r) {
+      l = i;
+      r = i + z[i] - 1;
+    }
+  }
+  return z;
+}
+
 // ─── SOLVE
 void solve() {
-  int n; cin >> n;
-  vector<pair<string, int>> pp;
-  map<string, int> mp;
-
-  int mx = -INFi, mn = INFi, tmp = 0;
-  FOR(i, n) {
-    string s; int x;
-    cin >> s >> x;
-    mp[s] += x;
-    pp.pb(make_pair(s, x));
-  }
-
-  for(auto &[k, v]: mp) {
-    mx = max(mx, v);
-  }
-
-  map<string, int> again;
-  FOR(i, n) {
-    if (mp[pp[i].first] == mx) {
-      again[pp[i].first] += pp[i].second;
-    }
-
-    if (again[pp[i].first] >= mx) {
-      cout << pp[i].first << '\n';
-      return;
-    }
-  }
+  string s;
+  cin >> s;
+  int n = s.length();
+  vii radar = build_z(s);
+  vii count(n + 2, 0);
+  for (int i = 0; i < n; i++)
+    count[radar[i]]++;
+ 
+  for (int i = n; i >= 1; i--)
+    count[i] += count[i + 1];
+ 
+  vector<pii> ans;
+ 
+  for (int i = n - 1; i >= 0; i--) 
+    if (radar[i] + i == n) ans.pb({radar[i], count[radar[i]]});
+ 
+  cout << ans.size() << '\n';
+  for (auto [len, cnt] : ans) cout << len << " " << cnt << '\n';
 }
 
 int main() {

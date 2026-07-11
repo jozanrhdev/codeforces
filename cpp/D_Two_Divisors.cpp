@@ -72,7 +72,7 @@ const ld PI = acos((ld)-1);
 #define no cout << "NO\n"
 
 // ─── UTILS
-// ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
+ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
 ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 ll pw(ll b, ll e, ll m = MOD) {
   ll r = 1;
@@ -97,35 +97,40 @@ void printv(const vector<T>& v) {
     cout << v[i] << " \n"[i + 1 == (int)v.size()];
 }
 
+int spf[10000001];
+
+void init() {
+  for (int i = 1; i <= 10000000; i++) spf[i] = i;
+  // Criba de Eratóstenes:
+  for (int i = 2; i * i <= 10000000; i++) {
+    if (spf[i] == i) {  // Si es primo
+      for (int j = i * i; j <= 10000000; j += i) {
+        if (spf[j] == j) spf[j] = i;
+      }
+    }
+  }
+}
+
 // ─── SOLVE
+
 void solve() {
   int n; cin >> n;
-  vector<pair<string, int>> pp;
-  map<string, int> mp;
-
-  int mx = -INFi, mn = INFi, tmp = 0;
-  FOR(i, n) {
-    string s; int x;
-    cin >> s >> x;
-    mp[s] += x;
-    pp.pb(make_pair(s, x));
-  }
-
-  for(auto &[k, v]: mp) {
-    mx = max(mx, v);
-  }
-
-  map<string, int> again;
-  FOR(i, n) {
-    if (mp[pp[i].first] == mx) {
-      again[pp[i].first] += pp[i].second;
-    }
-
-    if (again[pp[i].first] >= mx) {
-      cout << pp[i].first << '\n';
-      return;
+  init();
+  vector<int> d1(n), d2(n);
+  for (int i = 0, x; i < n; i++) {
+    cin >> x;
+    int p = spf[x];
+    int y = x;
+    while (y % p == 0) y /= p;
+    if (y == 1) {
+      d1[i] = d2[i] = -1;
+    } else {
+      d1[i] = p;
+      d2[i] = y;
     }
   }
+  printv(d1);
+  printv(d2);
 }
 
 int main() {

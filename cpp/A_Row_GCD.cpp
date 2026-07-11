@@ -110,8 +110,9 @@ void solve() {
     k = gcd(a[i] - a[0], k);
   }
 
-  for (int i = 0; i < m; ++i) {
-    b[i] = gcd(a[0] + b[i], k);
+  // gcd (a1 + bj, a2 + bj, a3 + bj, ...) = gcd (a1 - a0, a2 - a0, ..., an-1 - a0, an - a0, a1 + bj) = gcd (a1 - a2, a2 - a3, ..., an-1 - an, an - a1, bj)
+  for (int j = 0; j < m; ++j) {
+    b[j] = gcd(a[0] + b[j], k);
   }
 
   printv(b);

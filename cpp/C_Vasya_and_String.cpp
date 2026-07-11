@@ -115,8 +115,7 @@ void solve() {
   int n, k; cin >> n >> k;
   string s; cin >> s;
 
-  int ans = max(sliding_window(n, k, s, 'a'), sliding_window(n, k, s, 'b'));
-  cout << ans << '\n';
+  cout << max(sliding_window(n, k, s, 'a'), sliding_window(n, k, s, 'b')) << '\n';
 }
 
 int main() {
