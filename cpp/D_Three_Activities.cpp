@@ -72,7 +72,7 @@ const ld PI = acos((ld)-1);
 #define no cout << "NO\n"
 
 // ─── UTILS
-ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
+// ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
 ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 ll pw(ll b, ll e, ll m = MOD) {
   ll r = 1;
@@ -99,13 +99,32 @@ void printv(const vector<T>& v) {
 
 // ─── SOLVE
 void solve() {
-  ll n, x, y; cin >> n >> x >> y;
-  ll lcm_xy = lcm(x, y);
-  ll k1 = (n / x) - (n / lcm_xy);
-  ll k2 = (n / y) - (n / lcm_xy);
-  ll sum2 = k2 * (k2 + 1) / 2;
-  ll sum1 = k1 * (n + (n - k1 + 1)) / 2;
-  cout << sum1 - sum2 << '\n';
+  int n; cin >> n;
+
+  vector<pii> a(n), b(n), c(n);
+
+  FOR(i, n) { cin >> a[i].first; a[i].second = i; }
+  FOR(i, n) { cin >> b[i].first; b[i].second = i; }
+  FOR(i, n) { cin >> c[i].first; c[i].second = i; }
+
+  sortD(a);
+  sortD(b);
+  sortD(c);
+
+  ll ans = 0;
+  FOR(i, 3) {
+    FOR(j, 3) {
+      FOR(k, 3) {
+        if (a[i].second != b[j].second &&
+            a[i].second != c[k].second &&
+            b[j].second != c[k].second) {
+              ll current_sum = 0LL + a[i].first + b[j].first + c[k].first;
+              ans = max(ans, current_sum);
+        }
+      }
+    }
+  }
+  cout << ans << '\n';
 }
 
 int main() {

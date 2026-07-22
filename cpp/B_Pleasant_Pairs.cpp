@@ -72,7 +72,7 @@ const ld PI = acos((ld)-1);
 #define no cout << "NO\n"
 
 // ─── UTILS
-ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
+// ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
 ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 ll pw(ll b, ll e, ll m = MOD) {
   ll r = 1;
@@ -99,13 +99,18 @@ void printv(const vector<T>& v) {
 
 // ─── SOLVE
 void solve() {
-  ll n, x, y; cin >> n >> x >> y;
-  ll lcm_xy = lcm(x, y);
-  ll k1 = (n / x) - (n / lcm_xy);
-  ll k2 = (n / y) - (n / lcm_xy);
-  ll sum2 = k2 * (k2 + 1) / 2;
-  ll sum1 = k1 * (n + (n - k1 + 1)) / 2;
-  cout << sum1 - sum2 << '\n';
+  ll n, ans = 0; cin >> n;
+  vii a(n + 1);
+  FORI(i, 1, n + 1) cin >> a[i];
+  
+  FORI(i, 1, n + 1) {
+    int j = a[i] - i;
+    while(j <= i) j += a[i];
+
+    for (; j <= n; j += a[i])
+      if (i + j == (ll) a[i] * a[j]) ans++;
+  }
+  cout << ans << '\n';
 }
 
 int main() {
