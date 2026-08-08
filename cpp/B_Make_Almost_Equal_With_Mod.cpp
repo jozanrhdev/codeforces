@@ -109,6 +109,7 @@ void solve() {
     FOR(j, n) {
       s.insert(a[j] % two_pow);
     }
+    cout << "two_pow: " << two_pow << ", s: " << to_string(s) << '\n';
     if (s.size() > 1) {
       cout << two_pow << '\n';
       return;
